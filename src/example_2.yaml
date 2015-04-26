@@ -1,0 +1,12 @@
+dataflow:
+  - action: registration
+    xform: bspline
+    max-its: 100
+    convergence: 1e-3
+  - xform: vf
+    optim: demons
+    output-vf: $2
+  - action: filter
+    input: $2
+    filter: gaussian
+    gaussian-std: 3

@@ -1,0 +1,7 @@
+options:
+  index:
+    type: string
+    help: 'List of voxel indicies, such as "i j k; i j k; ..."'
+  location:
+    type: string
+    help: 'List of spatial locations, such as "i j k;i j k;..."'
