@@ -8,8 +8,7 @@
 
 class Dataclasp {
 public:
-public:
-    Dataclasp_node node;
+    Dataclasp_node root;
 public:
     void add_sequence ();
 };

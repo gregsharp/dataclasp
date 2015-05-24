@@ -7,13 +7,15 @@
 
 Yaml_loader::Yaml_loader ()
 {
+    dataclasp = 0;
 }
 
 Yaml_loader::~Yaml_loader ()
 {
+    delete dataclasp;
 }
 
-Dataclasp&
+Dataclasp_node*
 Yaml_loader::get_dataclasp (const char* fn)
 {
     printf ("Hello world (from yaml_loader): %s\n", fn);
@@ -30,6 +32,13 @@ Yaml_loader::get_dataclasp (const char* fn)
     bool done = false;
     bool seeking_value = false;
     std::string key, value;
+
+    dataclasp = new Dataclasp_node;
+
+    std::stack<Dataclasp*> dcl_stack;
+    dcl_stack.push (dataclasp);
+    current_node = dataclasp;
+    
     while (!done) {
         /* Get the next event. */
         if (!yaml_parser_parse (&parser, &event)) {

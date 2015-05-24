@@ -8,12 +8,12 @@
 
 class Yaml_loader {
 public:
-    Dataclasp dataclasp;
+    Dataclasp_node* dataclasp;
 public:
     Yaml_loader ();
     ~Yaml_loader ();
 public:
-    Dataclasp& get_dataclasp (const char* fn);
+    Dataclasp_node* get_dataclasp (const char* fn);
 };
 
 #endif

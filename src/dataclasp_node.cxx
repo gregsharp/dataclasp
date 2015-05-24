@@ -33,5 +33,6 @@ Dataclasp_node::clear ()
         delete (Map_data*) data;
         break;
     }
+    type = EMPTY_NODE;
     data = 0;
 }
