@@ -1,6 +1,7 @@
 /* -----------------------------------------------------------------------
    See COPYRIGHT.TXT and LICENSE.TXT for copyright and license information
    ----------------------------------------------------------------------- */
+#include <stack>
 #include <stdio.h>
 #include <yaml.h>
 #include "yaml_loader.h"
@@ -35,9 +36,9 @@ Yaml_loader::get_dataclasp (const char* fn)
 
     dataclasp = new Dataclasp_node;
 
-    std::stack<Dataclasp*> dcl_stack;
+    std::stack<Dataclasp_node*> dcl_stack;
     dcl_stack.push (dataclasp);
-    current_node = dataclasp;
+    Dataclasp_node *current_node = dataclasp;
     
     while (!done) {
         /* Get the next event. */

@@ -15,3 +15,8 @@ set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package (LibYAML)
 
 add_subdirectory (src)
+
+message (STATUS ">> ${CMAKE_BINARY_DIR}")
+
+enable_testing ()
+add_subdirectory (testing)

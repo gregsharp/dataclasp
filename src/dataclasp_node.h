@@ -23,6 +23,7 @@ public:
 public:
     Dataclasp_node ();
     ~Dataclasp_node ();
+    Dataclasp_node* add_sequence ();
     void clear ();
 };
 

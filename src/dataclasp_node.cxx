@@ -36,3 +36,10 @@ Dataclasp_node::clear ()
     type = EMPTY_NODE;
     data = 0;
 }
+
+Dataclasp_node*
+Dataclasp_node::add_sequence ()
+{
+    Dataclasp_node *a = 0;
+    return a;
+}

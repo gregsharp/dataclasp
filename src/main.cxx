@@ -34,7 +34,7 @@ main (int argc, char *argv[])
     }
 
     Yaml_loader yl;
-    Dataclasp& dc = yl.get_dataclasp (argv[1]);
+    Dataclasp_node *dc = yl.get_dataclasp (argv[1]);
 
     return 0;
 }
