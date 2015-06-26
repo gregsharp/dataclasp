@@ -14,8 +14,18 @@ macro (dataclasp_test test_name test_cmd test_args)
 	)
 endmacro ()
 
+set (DST_DIR "${CMAKE_SOURCE_DIR}/testing")
+set (DB_DIR "${CMAKE_BINARY_DIR}/src")
+set (DBT_DIR "${CMAKE_BINARY_DIR}/testing")
+
 dataclasp_test (
     ls
     "ls"
     ""
+    )
+
+dataclasp_test (
+    dataclasp-example-1
+    "${DB_DIR}/dataclasp"
+    "${DST_DIR}/example-1.yaml"
     )
