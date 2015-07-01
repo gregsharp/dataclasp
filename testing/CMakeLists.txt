@@ -2,6 +2,8 @@
 ##  See COPYRIGHT.TXT and LICENSE.TXT for copyright and license information
 ##-----------------------------------------------------------------------------
 
+include (RegressionTesting)
+
 macro (dataclasp_test test_name test_cmd test_args)
     message (STATUS ">> ${CMAKE_SOURCE_DIR}/testing/dataclasp_test.cmake")
     add_test (${test_name}
@@ -28,4 +30,10 @@ dataclasp_test (
     dataclasp-example-1
     "${DB_DIR}/dataclasp"
     "${DST_DIR}/example-1.yaml"
+    )
+
+regression_test_add (
+    dataclasp-example-2
+    "${DB_DIR}/dataclasp"
+    "${DST_DIR}/example-2.yaml"
     )
