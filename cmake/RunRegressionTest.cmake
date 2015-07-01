@@ -3,7 +3,6 @@
 ## Apparently this is how to make the CMake script return status
 ##   http://www.cmake.org/Wiki/CMake/C_Plugins_for_Loadable_Commands
 
-#set (ENV{PATH} "$ENV{PATH};${ITK_LIBRARY_PATH};${PLM_PLASTIMATCH_PATH};${PLM_FFTW_PATH}")
 set (ENV{PATH} "$ENV{PATH};${EXTRA_PATHS}")
 
 message ("PARMS is ${PARMS}")
@@ -49,13 +48,13 @@ if (NOT ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 2.8)
     GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 endif ()
 
+# Save the stdout and stderr
 set (STDOUT_FN "${BUILD_TESTING_DIR}/${TEST_NAME}.stdout.txt")
 file (WRITE ${STDOUT_FN} ${STDOUT})
-
 set (STDERR_FN "${BUILD_TESTING_DIR}/${TEST_NAME}.stderr.txt")
 file (WRITE ${STDERR_FN} ${STDERR})
 
-
+# Set ERRNO to non-zero if test failed
 if (NOT DEFINED EXPECTED_ERRNO)
   set (EXPECTED_ERRNO 0)
 endif ()

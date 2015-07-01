@@ -6,10 +6,6 @@
 
 #set (ENV{PATH} "$ENV{PATH};${ITK_LIBRARY_PATH};${PLM_PLASTIMATCH_PATH};${PLM_FFTW_PATH}")
 
-if (WIN32 AND NOT CYGWIN AND NOT MINGW)
-    set (REGRESSION_TEST_EXTRA_PATHS "${CMAKE_CURRENT_BINARY_DIR}/Release")
-endif ()
-
 macro (regression_test_add TEST_NAME TEST_COMMAND TEST_ARGS)
     set (options "")
     set (one_value_args EXPECTED_ERRNO WORKING_DIR)
