@@ -10,7 +10,7 @@ if (WIN32 AND NOT CYGWIN AND NOT MINGW)
     set (REGRESSION_TEST_EXTRA_PATHS "${CMAKE_CURRENT_BINARY_DIR}/Release")
 endif ()
 
-macro (regression_test_add TEST_NAME TEST_EXE TEST_ARGS)
+macro (regression_test_add TEST_NAME TEST_COMMAND TEST_ARGS)
     set (options "")
     set (one_value_args EXPECTED_ERRNO WORKING_DIR)
     set (multi_value_args EXTRA_PATHS)
@@ -37,6 +37,8 @@ macro (regression_test_add TEST_NAME TEST_EXE TEST_ARGS)
     # with replacement string, which will get substituted back within the 
     # cmake script itself
     string (REPLACE "=" "&equal&" TMP_PARMS "${TEST_ARGS}")
+
+    set (BUILD_TESTING_DIR "${CMAKE_BINARY_DIR}/Testing")
 
     add_test (${TEST_NAME} ${CMAKE_COMMAND} 
 	-DTEST_NAME=${TEST_NAME}

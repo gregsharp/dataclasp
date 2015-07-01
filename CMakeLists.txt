@@ -19,4 +19,4 @@ add_subdirectory (src)
 message (STATUS ">> ${CMAKE_BINARY_DIR}")
 
 enable_testing ()
-add_subdirectory (testing)
+add_subdirectory (Testing)
