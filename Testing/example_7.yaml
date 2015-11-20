@@ -1,0 +1,21 @@
+compute-module:
+  name: probe
+  options:
+    - name: index
+      type: string
+      help: 'List of voxel indicies, such as "i j k; i j k; ..."'
+      alias: [ idx, voxel-idx ]
+    - name: location
+      type: string
+      help: 'List of spatial locations, such as "i j k;i j k;..."'
+    - name: input
+      type: filename-list
+      default:
+      can-the-map-be-empty: yes
+      required: true
+  rules:
+    - required:
+      - input
+    - or:
+      - location
+      - index
