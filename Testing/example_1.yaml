@@ -1,4 +1,5 @@
 name: probe
+type: compute-module
 options:
   - name: index
     type: string

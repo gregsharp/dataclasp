@@ -11,23 +11,28 @@
 class Dataclasp_node {
 public:
     typedef std::string Leaf_data;
-    typedef std::list<Dataclasp_node> Sequence_data;
-    typedef std::map<std::string,Dataclasp_node> Map_data;
+    typedef std::list<Dataclasp_node*> Sequence_data;
+    typedef std::map<std::string,Dataclasp_node*> Map_data;
     enum Type {
         EMPTY_NODE,
         LEAF_NODE,
         SEQUENCE_NODE,
         MAP_NODE
-    } type;
+    };
+
     std::string name;
+    Type type;
     void *value;
+    
 public:
     Dataclasp_node ();
+    Dataclasp_node (const std::string&);
     ~Dataclasp_node ();
-    void set_type (enum Type);
-    void set_name (const std::string&);
-    Dataclasp_node* add_sequence ();
     void clear ();
+
+    void set_name (const std::string&);
+    void set_type (Dataclasp_node::Type);
+    void insert_map (const std::string&, const std::string&);
     void print_tree ();
 };
 

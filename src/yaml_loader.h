@@ -8,6 +8,8 @@
 
 #include "dataclasp.h"
 
+class Dataclasp_node;
+
 class Yaml_loader {
 public:
     Dataclasp_node* dataclasp;
@@ -16,8 +18,8 @@ public:
     Yaml_loader ();
     ~Yaml_loader ();
 public:
-    Dataclasp_node* get_dataclasp (
-        const std::string& infile);
+    Dataclasp_node* get_dataclasp (const std::string& infile);
+    Dataclasp_node *parse_yaml_node (yaml_parser_t *parser);
 protected:
     bool parse_event (yaml_parser_t *parser);
 };

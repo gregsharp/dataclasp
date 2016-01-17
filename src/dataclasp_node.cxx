@@ -11,6 +11,13 @@ Dataclasp_node::Dataclasp_node ()
     value = 0;
 }
 
+Dataclasp_node::Dataclasp_node (const std::string& s)
+{
+    name = "";
+    type = LEAF_NODE;
+    value = new std::string(s);
+}
+
 Dataclasp_node::~Dataclasp_node () {
     this->clear ();
 }
@@ -37,11 +44,42 @@ Dataclasp_node::clear ()
     value = 0;
 }
 
-Dataclasp_node*
-Dataclasp_node::add_sequence ()
+void
+Dataclasp_node::set_name (const std::string& name)
 {
-    Dataclasp_node *a = 0;
-    return a;
+    this->name = name;
+}
+
+void
+Dataclasp_node::set_type (Dataclasp_node::Type type)
+{
+    this->clear ();
+    this->type = type;
+    switch (type) {
+    case EMPTY_NODE:
+        break;
+    case LEAF_NODE:
+        this->value = new Leaf_data;
+        break;
+    case SEQUENCE_NODE:
+        this->value = new Sequence_data;
+        break;
+    case MAP_NODE:
+        this->value = new Map_data;
+        break;
+    }
+}
+
+void
+Dataclasp_node::insert_map (const std::string& name, const std::string& value)
+{
+    if (this->type != MAP_NODE) {
+        fprintf (stderr,
+            "Program error. Attempted to insert_map into a non-map\n");
+    }
+    Dataclasp_node *leaf = new Dataclasp_node (value);
+    Map_data *md = (Map_data*) this->value;
+    (*md)[name] = leaf;
 }
 
 void
