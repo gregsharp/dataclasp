@@ -8,7 +8,7 @@
 Dataclasp_node::Dataclasp_node ()
 {
     type = EMPTY_NODE;
-    data = 0;
+    value = 0;
 }
 
 Dataclasp_node::~Dataclasp_node () {
@@ -22,19 +22,19 @@ Dataclasp_node::clear ()
     case EMPTY_NODE:
         break;
     case LEAF_NODE:
-        delete (Leaf_data*) data;
+        delete (Leaf_data*) value;
         break;
     case SEQUENCE_NODE:
         /* GCS FIX: Delete sequence */
-        delete (Sequence_data*) data;
+        delete (Sequence_data*) value;
         break;
     case MAP_NODE:
         /* GCS FIX: Delete map value */
-        delete (Map_data*) data;
+        delete (Map_data*) value;
         break;
     }
     type = EMPTY_NODE;
-    data = 0;
+    value = 0;
 }
 
 Dataclasp_node*
@@ -42,4 +42,10 @@ Dataclasp_node::add_sequence ()
 {
     Dataclasp_node *a = 0;
     return a;
+}
+
+void
+Dataclasp_node::print_tree ()
+{
+    
 }

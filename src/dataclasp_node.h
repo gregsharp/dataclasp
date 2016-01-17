@@ -19,12 +19,16 @@ public:
         SEQUENCE_NODE,
         MAP_NODE
     } type;
-    void *data;
+    std::string name;
+    void *value;
 public:
     Dataclasp_node ();
     ~Dataclasp_node ();
+    void set_type (enum Type);
+    void set_name (const std::string&);
     Dataclasp_node* add_sequence ();
     void clear ();
+    void print_tree ();
 };
 
 #endif

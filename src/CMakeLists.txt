@@ -8,6 +8,7 @@ include_directories (BEFORE ${CMAKE_CURRENT_SOURCE_DIR})
 
 set (DATACLASP_LIBRARY_SRC
     dataclasp.cxx dataclasp.h 
+    dataclasp_argv.cxx dataclasp_argv.h
     dataclasp_node.cxx dataclasp_node.h 
     yaml_loader.cxx yaml_loader.h
 )
