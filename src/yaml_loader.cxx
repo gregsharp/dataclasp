@@ -84,14 +84,40 @@ Yaml_loader::parse_dataclasp_node (
                     map_name = map_value = "";
                 }
             }
+            else if (dataclasp->type == Dataclasp_node::SEQUENCE_NODE) {
+                std::string seq_value
+                    = (const char*) event.data.scalar.value;
+                dataclasp->insert_seq (seq_value);
+            }
+            else {
+                fprintf (stderr, "Parsing error.  Unexpected event.\n");
+                exit (-1);
+            }
         }
         else if (event.type == YAML_SEQUENCE_START_EVENT) {
             print_indent (indent);
-            printf ("S: start\n");
+            printf ("Q: start\n");
+            if (dataclasp->type == Dataclasp_node::MAP_NODE) {
+                if (map_name != "") {
+                    Dataclasp_node *dc_new = new Dataclasp_node (
+                        Dataclasp_node::SEQUENCE_NODE);
+                    this->parse_dataclasp_node (
+                        dc_new, indent + 1, parser);
+                    dataclasp->insert_map (map_name, dc_new);
+                    map_name = "";
+                } else {
+                    fprintf (stderr, "Parsing error.  Unexpected event.\n");
+                    exit (-1);
+                }
+            } else {
+                fprintf (stderr, "Parsing error.  Unexpected event.\n");
+                exit (-1);
+            }
         }
         else if (event.type == YAML_SEQUENCE_END_EVENT) {
-            print_indent (indent);
-            printf ("S: end\n");
+            print_indent (indent-1);
+            printf ("Q: end\n");
+            done = true;
         }
         else if (event.type == YAML_MAPPING_START_EVENT) {
             print_indent (indent);
@@ -102,6 +128,13 @@ Yaml_loader::parse_dataclasp_node (
                 ? (const char*) event.data.mapping_start.tag : "(null)");
             if (dataclasp->type == Dataclasp_node::EMPTY_NODE) {
                 dataclasp->set_type (Dataclasp_node::MAP_NODE);
+            }
+            else if (dataclasp->type == Dataclasp_node::SEQUENCE_NODE) {
+                Dataclasp_node *dc_new = new Dataclasp_node (
+                    Dataclasp_node::MAP_NODE);
+                this->parse_dataclasp_node (
+                    dc_new, indent + 1, parser);
+                dataclasp->insert_seq (dc_new);
             }
             else if (dataclasp->type == Dataclasp_node::MAP_NODE) {
                 if (map_name != "") {
@@ -122,7 +155,7 @@ Yaml_loader::parse_dataclasp_node (
             }
         }
         else if (event.type == YAML_MAPPING_END_EVENT) {
-            print_indent (indent);
+            print_indent (indent-1);
             printf ("M: end\n");
             done = true;
         }

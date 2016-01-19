@@ -35,6 +35,8 @@ public:
     void set_type (Dataclasp_node::Type);
     void insert_map (const std::string&, const std::string&);
     void insert_map (const std::string&, Dataclasp_node *);
+    void insert_seq (const std::string&);
+    void insert_seq (Dataclasp_node *);
     void print_tree ();
 };
 

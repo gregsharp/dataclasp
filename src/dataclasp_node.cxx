@@ -104,6 +104,29 @@ Dataclasp_node::insert_map (const std::string& name, Dataclasp_node *value)
 }
 
 void
+Dataclasp_node::insert_seq (const std::string& value)
+{
+    if (this->type != SEQUENCE_NODE) {
+        fprintf (stderr,
+            "Program error. Attempted to insert_seq into a non-seq\n");
+    }
+    Dataclasp_node *leaf = new Dataclasp_node (value);
+    Sequence_data *sd = (Sequence_data*) this->value;
+    sd->push_back (leaf);
+}
+
+void
+Dataclasp_node::insert_seq (Dataclasp_node *value)
+{
+    if (this->type != SEQUENCE_NODE) {
+        fprintf (stderr,
+            "Program error. Attempted to insert_seq into a non-seq\n");
+    }
+    Sequence_data *sd = (Sequence_data*) this->value;
+    sd->push_back (value);
+}
+
+void
 Dataclasp_node::print_tree ()
 {
     

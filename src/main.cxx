@@ -79,6 +79,8 @@ main (int argc, char *argv[])
 
     Dataclasp_node *dc = yl.get_dataclasp (input_file.c_str());
 
+    dc->print_tree ();
+    
     if (output_file != "") {
         Dataclasp_argv dca (dc);
         dca.write_argv_parser ();
