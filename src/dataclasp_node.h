@@ -27,12 +27,14 @@ public:
 public:
     Dataclasp_node ();
     Dataclasp_node (const std::string&);
+    Dataclasp_node (Dataclasp_node::Type);
     ~Dataclasp_node ();
     void clear ();
 
     void set_name (const std::string&);
     void set_type (Dataclasp_node::Type);
     void insert_map (const std::string&, const std::string&);
+    void insert_map (const std::string&, Dataclasp_node *);
     void print_tree ();
 };
 

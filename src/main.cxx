@@ -30,7 +30,7 @@ print_usage (const char* error_message = 0)
 	" -O outfile          Output file\n"
     );
     if (error_message) {
-        printf ("%s", error_message);
+        printf ("%s\n", error_message);
     }
     exit (1);
 }
@@ -42,6 +42,10 @@ main (int argc, char *argv[])
     std::string backend;
     std::string input_file;
     std::string output_file;
+
+    if (argc == 1) {
+	print_usage ();
+    }
 
     int i;
     for (i = 1; i < argc; i++) {

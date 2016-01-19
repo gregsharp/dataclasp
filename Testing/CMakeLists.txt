@@ -38,5 +38,5 @@ regression_test_add (
 regression_test_add (
     dataclasp-example-7
     "${DB_DIR}/dataclasp"
-    "${DST_DIR}/example_7.yaml"
+    "-O;${DBT_DIR}/example_7.h;${DST_DIR}/example_7.yaml"
     )

@@ -26,16 +26,24 @@ Yaml_loader::~Yaml_loader ()
     delete dataclasp;
 }
 
-Dataclasp_node *
-Yaml_loader::parse_yaml_node (
+void
+print_indent (int indent)
+{
+    for (int i = 0; i < indent; i++) {
+        printf (" ");
+    }
+}
+
+void
+Yaml_loader::parse_dataclasp_node (
+    Dataclasp_node *dataclasp,
+    int indent,
     yaml_parser_t *parser
 )
 {
-    Dataclasp_node *dataclasp = new Dataclasp_node;
-
     /* Get the next event. */
     bool done = false;
-    std::string map_name = "", map_value = "";
+    std::string map_name = "";
     while (!done) {
         yaml_event_t event;
         if (!yaml_parser_parse (parser, &event)) {
@@ -51,15 +59,17 @@ Yaml_loader::parse_yaml_node (
             done = true;
         }
         else if (event.type == YAML_DOCUMENT_START_EVENT) {
+            printf ("D: start\n");
             this->num_documents ++;
         }
         else if (event.type == YAML_DOCUMENT_END_EVENT) {
-            /* Do nothing */
+            printf ("D: end\n");
         }
         else if (event.type == YAML_ALIAS_EVENT) {
             /* Do nothing */
         }
         else if (event.type == YAML_SCALAR_EVENT) {
+            print_indent (indent);
             printf ("S: %s | %s\n",
                 event.data.scalar.tag
                 ? (const char*) event.data.scalar.tag : "(null)",
@@ -68,33 +78,56 @@ Yaml_loader::parse_yaml_node (
                 if (map_name == "") {
                     map_name = (const char*) event.data.scalar.value;
                 } else {
-                    map_value = (const char*) event.data.scalar.value;
+                    std::string map_value
+                        = (const char*) event.data.scalar.value;
                     dataclasp->insert_map (map_name, map_value);
                     map_name = map_value = "";
                 }
             }
         }
         else if (event.type == YAML_SEQUENCE_START_EVENT) {
+            print_indent (indent);
             printf ("S: start\n");
         }
         else if (event.type == YAML_SEQUENCE_END_EVENT) {
+            print_indent (indent);
             printf ("S: end\n");
         }
         else if (event.type == YAML_MAPPING_START_EVENT) {
+            print_indent (indent);
             printf ("M: %s | %s\n",
                 event.data.mapping_start.anchor
                 ? (const char*) event.data.mapping_start.anchor : "(null)",
                 event.data.mapping_start.tag
                 ? (const char*) event.data.mapping_start.tag : "(null)");
-            dataclasp->set_type (Dataclasp_node::MAP_NODE);
+            if (dataclasp->type == Dataclasp_node::EMPTY_NODE) {
+                dataclasp->set_type (Dataclasp_node::MAP_NODE);
+            }
+            else if (dataclasp->type == Dataclasp_node::MAP_NODE) {
+                if (map_name != "") {
+                    Dataclasp_node *dc_new = new Dataclasp_node (
+                        Dataclasp_node::MAP_NODE);
+                    this->parse_dataclasp_node (
+                        dc_new, indent + 1, parser);
+                    dataclasp->insert_map (map_name, dc_new);
+                    map_name = "";
+                } else {
+                    fprintf (stderr, "Parsing error.  Unexpected event.\n");
+                    exit (-1);
+                }
+            }
+            else {
+                fprintf (stderr, "Parsing error.  Unexpected event.\n");
+                exit (-1);
+            }
         }
         else if (event.type == YAML_MAPPING_END_EVENT) {
+            print_indent (indent);
             printf ("M: end\n");
             done = true;
         }
         yaml_event_delete (&event);
     }
-    return dataclasp;
 }
 
 bool
@@ -173,11 +206,16 @@ Yaml_loader::get_dataclasp (
 
     std::stack<Dataclasp_node*> dcl_stack;
     dcl_stack.push (dataclasp);
+
+#if defined (commentout)
     Dataclasp_node *current_node = dataclasp;
-    
     while (!done) {
         done = this->parse_event (&parser);
     }
+#endif
+
+    this->parse_dataclasp_node (dataclasp, 0, &parser);
+
     yaml_parser_delete (&parser);
     fclose (fp);
     printf ("Processed %d documents\n", this->num_documents);

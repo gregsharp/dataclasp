@@ -22,6 +22,10 @@ public:
     Dataclasp_node *parse_yaml_node (yaml_parser_t *parser);
 protected:
     bool parse_event (yaml_parser_t *parser);
+    void parse_dataclasp_node (
+        Dataclasp_node *dataclasp,
+        int indent,
+        yaml_parser_t *parser);
 };
 
 #endif

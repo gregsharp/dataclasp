@@ -7,6 +7,7 @@
 
 Dataclasp_node::Dataclasp_node ()
 {
+    name = "";
     type = EMPTY_NODE;
     value = 0;
 }
@@ -15,7 +16,15 @@ Dataclasp_node::Dataclasp_node (const std::string& s)
 {
     name = "";
     type = LEAF_NODE;
-    value = new std::string(s);
+    value = new Leaf_data (s);
+}
+
+Dataclasp_node::Dataclasp_node (Dataclasp_node::Type t)
+{
+    name = "";
+    type = EMPTY_NODE;
+    value = 0;
+    this->set_type (t);
 }
 
 Dataclasp_node::~Dataclasp_node () {
@@ -40,6 +49,7 @@ Dataclasp_node::clear ()
         delete (Map_data*) value;
         break;
     }
+    name = "";
     type = EMPTY_NODE;
     value = 0;
 }
@@ -80,6 +90,17 @@ Dataclasp_node::insert_map (const std::string& name, const std::string& value)
     Dataclasp_node *leaf = new Dataclasp_node (value);
     Map_data *md = (Map_data*) this->value;
     (*md)[name] = leaf;
+}
+
+void
+Dataclasp_node::insert_map (const std::string& name, Dataclasp_node *value)
+{
+    if (this->type != MAP_NODE) {
+        fprintf (stderr,
+            "Program error. Attempted to insert_map into a non-map\n");
+    }
+    Map_data *md = (Map_data*) this->value;
+    (*md)[name] = value;
 }
 
 void

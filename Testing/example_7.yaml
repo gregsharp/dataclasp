@@ -1,3 +1,5 @@
+# includes: [ example_include_1.yaml, example_include_2.yaml ]
+
 compute-module:
   name: probe
   options:
