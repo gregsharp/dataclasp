@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <yaml.h>
 #include "dataclasp_node.h"
+#include "print_indent.h"
 
 Dataclasp_node::Dataclasp_node ()
 {
@@ -129,5 +130,21 @@ Dataclasp_node::insert_seq (Dataclasp_node *value)
 void
 Dataclasp_node::print_tree ()
 {
-    
+    int indent = 0;
+    bool done = 0;
+    while (!done) {
+        print_indent (indent);
+        switch (this->type) {
+        case EMPTY_NODE:
+            printf ("E\n");
+            break;
+        case SEQUENCE_NODE:
+            printf ("Q\n");
+            break;
+        case MAP_NODE:
+            printf ("M\n");
+            break;
+        }
+        break;
+    }
 }

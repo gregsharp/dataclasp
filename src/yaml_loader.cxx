@@ -4,8 +4,9 @@
 #include <stack>
 #include <stdio.h>
 #include <yaml.h>
-#include "yaml_loader.h"
 #include "dataclasp_node.h"
+#include "print_indent.h"
+#include "yaml_loader.h"
 
 /*
 stream ::= STREAM-START document* STREAM-END
@@ -24,14 +25,6 @@ Yaml_loader::Yaml_loader ()
 Yaml_loader::~Yaml_loader ()
 {
     delete dataclasp;
-}
-
-void
-print_indent (int indent)
-{
-    for (int i = 0; i < indent; i++) {
-        printf (" ");
-    }
 }
 
 void
