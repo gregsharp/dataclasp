@@ -21,35 +21,61 @@
 
 
 void
-usage ()
+print_usage (const char* error_message = 0)
 {
-    printf ("Usage: dataclasp [ -O output-file ] input-file\n");
-    exit (-1);
+    printf (
+        "Usage: dataclasp [options] input-file\n"
+	"Options:\n"
+	" -b backend          Backend used to create output file\n"
+	" -O outfile          Output file\n"
+    );
+    if (error_message) {
+        printf ("%s", error_message);
+    }
+    exit (1);
 }
 
 int
 main (int argc, char *argv[])
 {
-    std::string infile, outfile;
-    
-    if (argc == 2) {
-        infile = argv[1];
-    }
-    else if (argc == 4) {
-        if (std::string(argv[1]) != "-O") {
-            usage ();
-        }
-        outfile = argv[2];
-        infile = argv[3];
-    }
-    else {
-        usage ();
-    }
-
     Yaml_loader yl;
-    Dataclasp_node *dc = yl.get_dataclasp (infile);
+    std::string backend;
+    std::string input_file;
+    std::string output_file;
 
-    if (outfile != "") {
+    int i;
+    for (i = 1; i < argc; i++) {
+	if (!strcmp (argv[i], "-b")) {
+	    if (++i >= argc) { 
+                print_usage("Error parsing -b option"); 
+            }
+	    backend = argv[i];
+	}
+	else if (!strcmp (argv[i], "-O")) {
+	    if (++i >= argc) { 
+                print_usage("Error parsing -O option"); 
+            }
+	    output_file = argv[i];
+	}
+        else if (!strcmp (argv[i], "-")) {
+            print_usage("Error parsing unknown option");
+        }
+        else {
+            break;
+        }
+    }
+
+    if (i < argc) {
+        input_file = argv[i++];
+        printf ("Input file is: %s\n", input_file.c_str());
+    }
+    if (i < argc) {
+	print_usage ("Error, extra argument.");
+    }
+
+    Dataclasp_node *dc = yl.get_dataclasp (input_file.c_str());
+
+    if (output_file != "") {
         Dataclasp_argv dca (dc);
         dca.write_argv_parser ();
     }

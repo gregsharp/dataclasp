@@ -34,3 +34,9 @@ regression_test_add (
     "${DB_DIR}/dataclasp"
     "${DST_DIR}/example_2.yaml"
     )
+
+regression_test_add (
+    dataclasp-example-7
+    "${DB_DIR}/dataclasp"
+    "${DST_DIR}/example_7.yaml"
+    )

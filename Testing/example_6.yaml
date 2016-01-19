@@ -10,9 +10,10 @@ options:
     type: filename-list
     default:
     can-the-map-be-empty: yes
-    required: true
 rules:
-#  - (!location && !index)
+  # This is a comment
+  - required:
+    input
   - or:
     - location
     - index
